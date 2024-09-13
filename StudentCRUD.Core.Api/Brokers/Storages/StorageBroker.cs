@@ -4,7 +4,7 @@ using STX.EFxceptions.SqlServer;
 
 namespace StudentCRUD.Core.Api.Brokers.Storages
 {
-    public class StorageBroker: EFxceptionsContext, IStorageBroker
+    public partial class StorageBroker: EFxceptionsContext
     {
         private readonly IConfiguration configuration;
 
@@ -13,13 +13,11 @@ namespace StudentCRUD.Core.Api.Brokers.Storages
             this.configuration = configuration;
             this.Database.Migrate();
         }
-        public DbSet<Student> Students { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connectionString =
-                this.configuration.GetConnectionString("ApplicationConnection");
-
-            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.UseSqlServer(this.configuration.
+                GetConnectionString("ApplicationConnection"));
         }
     }
 }
