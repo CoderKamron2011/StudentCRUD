@@ -19,5 +19,14 @@ namespace StudentCRUD.Core.Api.Brokers.Storages
             optionsBuilder.UseSqlServer(this.configuration.
                 GetConnectionString("ApplicationConnection"));
         }
+        private async ValueTask<T> InsertAsync<T>(T @object)
+        {
+            var broker = new StorageBroker(this.configuration);
+
+            broker.Entry(@object).State = EntityState.Added;
+            await broker.SaveChangesAsync();
+
+            return @object;
+        }
     }
 }
