@@ -4,7 +4,7 @@ using STX.EFxceptions.SqlServer;
 
 namespace StudentCRUD.Core.Api.Brokers.Storages
 {
-    public partial class StorageBroker: EFxceptionsContext
+    public partial class StorageBroker: EFxceptionsContext, IStorageBroker
     {
         private readonly IConfiguration configuration;
 
@@ -34,5 +34,7 @@ namespace StudentCRUD.Core.Api.Brokers.Storages
 
             return broker.Set<T>();
         }
+        private async ValueTask<T> SelectAsync<T>(params object[] objectIds) where T : class =>
+         await FindAsync<T>(objectIds);
     }
 }
